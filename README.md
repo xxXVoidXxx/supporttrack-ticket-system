@@ -95,6 +95,15 @@ If deploying, be sure to run `create_admin.py` to initialize this account.
 
 ---
 
+## 🧪 Optional: Seeding the Database
+
+If you want to populate the app with clean demo data (users + tickets), run the included `seed_data.py` script:
+
+```bash
+python seed_data.py
+
+---
+
 ## 📫 Contact
 
 Built with ❤️ by [@xxXVoidXxx](https://github.com/xxXVoidXxx)  

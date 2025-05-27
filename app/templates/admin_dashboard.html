@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+
+    <!-- Page title -->
+    <h2 class="mb-4">Admin Dashboard</h2>
+
+    <!-- ======================== -->
+    <!-- ⚙️ Admin Tools Section -->
+    <!-- ======================== -->
+    <div class="mb-4 p-3 border rounded bg-light">
+      <h5 class="mb-3">Admin Tools</h5>
+
+      <!-- 🧭 Filter by status form -->
+      <form method="GET" action="{{ url_for('routes.admin_dashboard') }}" class="row g-2 align-items-end mb-3">
+
+        <!-- Label column -->
+        <div class="col-md-auto">
+          <label for="status" class="form-label mb-0">Filter by status:</label>
+        </div>
+
+        <!-- Dropdown column -->
+        <div class="col-md-3">
+          <select name="status" id="status" class="form-select">
+            <option value="">All</option>
+            <option value="Open" {% if request.args.get('status') == 'Open' %}selected{% endif %}>Open</option>
+            <option value="In Progress" {% if request.args.get('status') == 'In Progress' %}selected{% endif %}>In Progress</option>
+            <option value="Closed" {% if request.args.get('status') == 'Closed' %}selected{% endif %}>Closed</option>
+          </select>
+        </div>
+
+        <!-- Submit button column -->
+        <div class="col-md-auto">
+          <button type="submit" class="btn btn-outline-primary">Apply</button>
+        </div>
+      </form>
+
+      <!-- 📥 CSV Export button -->
+      <form method="GET" action="{{ url_for('routes.export_tickets') }}" class="d-inline">
+        <button type="submit" class="btn btn-outline-success">Export Tickets to CSV</button>
+      </form>
+
+      <!-- 👥 Link to user management -->
+      <a href="{{ url_for('routes.user_management') }}" class="btn btn-outline-secondary ms-2">Manage Users</a>
+
+      <!-- 🧹 Clear Filter + Status Label -->
+      {% if request.args.get('status') %}
+        <div class="mt-2">
+          <strong>Currently showing:</strong> {{ request.args.get('status') }} tickets |
+          <a href="{{ url_for('routes.admin_dashboard') }}">Clear Filter</a>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- ======================== -->
+    <!-- 📋 Ticket Table -->
+    <!-- ======================== -->
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Submitted By</th>
+            <th>Timestamp</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ticket in tickets %}
+          <tr>
+            <td>{{ ticket.id }}</td>
+            <td>{{ ticket.title }}</td>
+            <td>{{ ticket.status }}</td>
+            <td>{{ ticket.author.email }}</td>
+            <td>{{ ticket.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+
+            <!-- 🎯 Admin update ticket status form -->
+            <td>
+              <form method="POST" action="{{ url_for('routes.update_status', ticket_id=ticket.id) }}" class="d-flex align-items-center gap-2">
+                <select name="status" class="form-select form-select-sm w-auto">
+                  <option value="Open" {% if ticket.status == 'Open' %}selected{% endif %}>Open</option>
+                  <option value="In Progress" {% if ticket.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                  <option value="Closed" {% if ticket.status == 'Closed' %}selected{% endif %}>Closed</option>
+                </select>
+                <button type="submit" class="btn btn-sm btn-primary">Update</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 🔙 Back to user dashboard -->
+    <p class="mt-4">
+      <a href="{{ url_for('routes.dashboard') }}" class="btn btn-link">Back to User Dashboard</a>
+    </p>
+
+  </div>
+</div>
+{% endblock %}

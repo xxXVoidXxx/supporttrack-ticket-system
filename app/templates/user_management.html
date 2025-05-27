@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-10 offset-md-1">
+
+    <!-- Page title -->
+    <h2 class="mb-4">User Management</h2>
+
+    <!-- 🧾 Table of all registered users -->
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Admin Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.email }}</td>
+
+            <!-- Show current admin status -->
+            <td>
+              {% if user.is_admin %}
+                ✅ Admin
+              {% else %}
+                ❌ User
+              {% endif %}
+            </td>
+
+            <!-- Show promote/demote form if not current user -->
+            <td>
+              {% if user.id != current_user.id %}
+                <form method="POST" action="{{ url_for('routes.toggle_admin', user_id=user.id) }}">
+                  <button type="submit" class="btn btn-sm {% if user.is_admin %}btn-warning{% else %}btn-success{% endif %}">
+                    {% if user.is_admin %}Demote{% else %}Promote{% endif %}
+                  </button>
+                </form>
+              {% else %}
+                <span class="text-muted">N/A (you)</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 🔙 Return to admin dashboard -->
+    <p class="mt-4">
+      <a href="{{ url_for('routes.admin_dashboard') }}" class="btn btn-link">Back to Admin Dashboard</a>
+    </p>
+
+  </div>
+</div>
+{% endblock %}

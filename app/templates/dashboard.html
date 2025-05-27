@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+
+    <!-- Page heading -->
+    <h2 class="mb-4">Your Dashboard</h2>
+
+    <!-- ========================= -->
+    <!-- 📝 Ticket Submission Form -->
+    <!-- ========================= -->
+    <h4 class="mb-3">Submit a New Ticket</h4>
+
+    <form method="POST">
+      {{ form.hidden_tag() }}
+
+      <!-- Ticket title -->
+      <div class="mb-3">
+        {{ form.title.label(class="form-label") }}
+        {{ form.title(class="form-control") }}
+      </div>
+
+      <!-- Ticket description -->
+      <div class="mb-3">
+        {{ form.description.label(class="form-label") }}
+        {{ form.description(class="form-control") }}
+      </div>
+
+      <!-- Submit button -->
+      <div class="d-grid">
+        {{ form.submit(class="btn btn-primary") }}
+      </div>
+    </form>
+
+    <hr class="my-4">
+
+    <!-- ========================= -->
+    <!-- 📋 Submitted Ticket List -->
+    <!-- ========================= -->
+    <h4>Your Submitted Tickets</h4>
+
+    {% if tickets %}
+      <ul class="list-group mt-3">
+        {% for ticket in tickets %}
+          <li class="list-group-item">
+            <strong>{{ ticket.title }}</strong><br>
+            {{ ticket.description }}<br>
+            <em>Status:</em> {{ ticket.status }}<br>
+            <em>Submitted:</em> {{ ticket.timestamp.strftime('%Y-%m-%d %H:%M') }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-muted mt-3">You haven’t submitted any tickets yet.</p>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

@@ -77,6 +77,24 @@ This project is ready to be deployed to services like [Render](https://render.co
 
 ---
 
+## 🔐 Demo Credentials
+
+Use the following test account to explore the full admin functionality:
+
+**Admin Login**  
+📧 Email: `admin@example.com`  
+🔑 Password: `YourSecurePassword123!`
+
+This account grants access to:
+- Admin Dashboard
+- Ticket status updates
+- User management panel
+- CSV export and filter tools
+
+If deploying, be sure to run `create_admin.py` to initialize this account.
+
+---
+
 ## 📫 Contact
 
 Built with ❤️ by [@xxXVoidXxx](https://github.com/xxXVoidXxx)  

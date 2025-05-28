@@ -1,5 +1,5 @@
 # Import the create_app function and the database object (db)
-#should only need to be run once
+# One-time script to initialize the database schema on Render (or any other production deployment)
 from app import create_app, db
 
 # Create a Flask app instance using the factory pattern

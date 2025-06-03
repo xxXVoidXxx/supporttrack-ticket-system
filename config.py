@@ -6,8 +6,9 @@ class Config:
     # Secret key protects sessions and forms from tampering
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
 
-    # SQLAlchemy will use a local SQLite file to store your data
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///supporttrack.db'
+    # SQLAlchemy will use a PostgresSQL or resort to local SQLite file to store your data
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or "sqlite:///supporttrack.db"
+
 
     # This suppresses warning messages we don’t need right now
     SQLALCHEMY_TRACK_MODIFICATIONS = False
